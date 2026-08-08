@@ -15,7 +15,7 @@ jobs:
         include:
           - os: windows-latest
             artifact_name: nebula-browser-windows
-            installer: msi
+            bundles: msi
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -42,4 +42,4 @@ jobs:
           releaseBody: "See the assets to download this version and install."
           releaseDraft: false
           prerelease: false
-          args: --target x86_64-pc-windows-msvc --bundle-type msi
+          args: --target x86_64-pc-windows-msvc --bundles msi
