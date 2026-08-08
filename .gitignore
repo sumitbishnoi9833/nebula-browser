@@ -4,6 +4,3 @@ target/
 .env
 *.log
 .DS_Store
-*.ico
-*.png
-!icons/icon.svg
