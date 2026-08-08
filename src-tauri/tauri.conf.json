@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "identifier": "com.nebula.browser",
   "build": {
+    "beforeBuildCommand": "npm run build",
     "devUrl": "http://localhost:1420",
     "frontendDist": "../dist"
   },
