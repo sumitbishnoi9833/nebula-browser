@@ -8,7 +8,7 @@
     "devUrl": "http://localhost:1420",
     "frontendDist": "../dist"
   },
-  "app": {
+ 0  "app": {
     "windows": [
       {
         "title": "Nebula Browser",
@@ -36,7 +36,7 @@
     ]
   },
   "plugins": {
-    "fs": { "scope": [{ "path": "$APPDATA/nebula-browser/*" }] },
+    "fs": { "requireLiteralLeadingDot": false },
     "shell": { "scope": { "execute": [], "sidecar": [] } }
   }
 }
