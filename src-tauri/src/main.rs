@@ -1,6 +1,6 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use tauri::{Manager, AppHandle, http::Response};
+use tauri::{Manager, AppHandle, http::Response, WebviewUrl};
 use tauri_plugin_global_shortcut::{Shortcut, GlobalShortcutExt};
 use serde::{Deserialize, Serialize};
 use std::sync::{Arc, Mutex};
@@ -189,9 +189,17 @@ fn main() {
             window_close,
         ])
         .setup(|app| {
-            let main_window = app.get_webview_window("main").unwrap();
-            main_window.show().unwrap();
-            main_window.set_focus().unwrap();
+            // Ensure main window loads the frontend
+            if let Some(window) = app.get_webview_window("main") {
+                window.show().unwrap();
+                window.set_focus().unwrap();
+                
+                // Navigate to the built frontend
+                #[cfg(not(debug_assertions))]
+                {
+                    let _ = window.navigate(tauri::WebviewUrl::App("index.html".into()));
+                }
+            }
 
             setup_global_shortcuts(app.handle());
 
