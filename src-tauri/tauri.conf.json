@@ -8,7 +8,7 @@
     "devUrl": "http://localhost:1420",
     "frontendDist": "../dist"
   },
- 0  "app": {
+  "app": {
     "windows": [
       {
         "title": "Nebula Browser",
