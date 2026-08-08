@@ -38,9 +38,6 @@
   "plugins": {
     "fs": { "requireLiteralLeadingDot": false },
     "shell": { "open": true },
-    "dialog": {},
-    "os": {},
-    "opener": {},
     "clipboard-manager": {},
     "global-shortcut": {},
     "updater": {},
