@@ -1,0 +1,30 @@
+{
+  "name": "nebula-browser",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "tauri:dev": "tauri dev",
+    "dev:full": "concurrently \"npm run dev\" \"npm run tauri:dev\"",
+    "build": "vite build",
+    "preview": "vite preview",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2",
+    "@tauri-apps/plugin-dialog": "^2",
+    "@tauri-apps/plugin-fs": "^2",
+    "@tauri-apps/plugin-opener": "^2",
+    "@tauri-apps/plugin-os": "^2",
+    "@tauri-apps/plugin-shell": "^2",
+    "uuid": "^14.0.1"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2",
+    "@types/uuid": "^10.0.0",
+    "concurrently": "^8.2.2",
+    "typescript": "^5",
+    "vite": "^5",
+    "vite-plugin-tauri": "^4"
+  }
+}

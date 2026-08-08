@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Tab</title>
+  <style>
+    :root {
+      --bg-deep: #03040c;
+      --bg-card: #0a0d1a;
+      --bg-elevated: #111526;
+      --fg-primary: #e8eaff;
+      --fg-muted: #6b728e;
+      --accent-cyan: #00d4ff;
+      --accent-purple: #a855f7;
+      --accent-pink: #ec4899;
+      --border-dim: #1e243a;
+      --border-bright: #00d4ff40;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; background: var(--bg-deep); color: var(--fg-primary); font-family: 'Space Grotesk', system-ui, sans-serif; overflow: hidden; }
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+    #bg-canvas { position: fixed; inset: 0; z-index: 0; }
+    .container { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; }
+    .logo { animation: float 4s ease-in-out infinite; }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    .logo-svg { width: 120px; height: 120px; filter: drop-shadow(0 0 30px #00d4ff80) drop-shadow(0 0 60px #a855f740); }
+    h1 { font-size: 3rem; font-weight: 700; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple), var(--accent-pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-top: 24px; text-align: center; letter-spacing: -0.02em; }
+    .tagline { color: var(--fg-muted); font-size: 1.1rem; margin-top: 8px; text-align: center; max-width: 500px; }
+    .search-box { margin-top: 48px; width: 100%; max-width: 680px; }
+    .search-wrapper { position: relative; }
+    .search-input { width: 100%; height: 60px; padding: 0 60px 0 24px; font-size: 1.1rem; font-family: inherit; background: var(--bg-card); border: 2px solid var(--border-dim); border-radius: 16px; color: var(--fg-primary); outline: none; transition: all 0.2s; }
+    .search-input::placeholder { color: var(--fg-muted); }
+    .search-input:focus { border-color: var(--accent-cyan); box-shadow: 0 0 30px #00d4ff40, 0 0 60px #00d4ff20; }
+    .search-btn { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border: none; border-radius: 12px; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); color: var(--bg-deep); cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+    .search-btn:hover { transform: translateY(-50%) scale(1.05); box-shadow: 0 0 20px #00d4ff80; }
+    .shortcuts { display: flex; gap: 16px; margin-top: 40px; flex-wrap: wrap; justify-content: center; }
+    .shortcut { display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: var(--bg-card); border: 1px solid var(--border-dim); border-radius: 10px; font-size: 0.85rem; color: var(--fg-muted); transition: all 0.15s; }
+    .shortcut:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); background: var(--bg-elevated); }
+    .shortcut kbd { background: var(--bg-deep); border: 1px solid var(--border-dim); padding: 2px 8px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; }
+    .quick-links { margin-top: 48px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .quick-link { padding: 10px 20px; background: var(--bg-card); border: 1px solid var(--border-dim); border-radius: 10px; color: var(--fg-primary); text-decoration: none; font-size: 0.9rem; transition: all 0.15s; }
+    .quick-link:hover { border-color: var(--accent-purple); color: var(--accent-purple); background: var(--bg-elevated); }
+    @media (prefers-reduced-motion: reduce) { .logo { animation: none; } }
+  </style>
+</head>
+<body>
+  <canvas id="bg-canvas"></canvas>
+  <div class="container">
+    <div class="logo">
+      <svg class="logo-svg" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="ring" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#00d4ff"/>
+            <stop offset="50%" stop-color="#a855f7"/>
+            <stop offset="100%" stop-color="#ec4899"/>
+          </linearGradient>
+          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="8" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <circle cx="128" cy="128" r="90" fill="none" stroke="url(#ring)" stroke-width="6" filter="url(#glow)"/>
+        <path d="M128 60 C128 60 160 60 160 95 C160 130 128 170 128 170 C128 170 96 130 96 95 C96 60 128 60 128 60 Z" fill="url(#ring)" opacity="0.9" filter="url(#glow)"/>
+        <circle cx="128" cy="128" r="12" fill="#03040c"/>
+        <circle cx="128" cy="128" r="6" fill="url(#ring)"/>
+        <path d="M128 95 L128 115" stroke="#00d4ff" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <h1>Nebula Browser</h1>
+    <p class="tagline">A sci-fi browser for the modern web. Fast, private, and beautifully weird.</p>
+    
+    <div class="search-box">
+      <div class="search-wrapper">
+        <input type="text" class="search-input" id="search-input" placeholder="Search the web or enter a URL..." autocomplete="off" spellcheck="false">
+        <button class="search-btn" id="search-btn" aria-label="Search">▶</button>
+      </div>
+    </div>
+
+    <div class="shortcuts">
+      <div class="shortcut"><kbd>Ctrl+T</kbd> New Tab</div>
+      <div class="shortcut"><kbd>Ctrl+K</kbd> Nebula AI</div>
+      <div class="shortcut"><kbd>Ctrl+P</kbd> Command Palette</div>
+      <div class="shortcut"><kbd>Ctrl+,</kbd> Settings</div>
+      <div class="shortcut"><kbd>F11</kbd> Fullscreen</div>
+    </div>
+
+    <div class="quick-links">
+      <a href="https://github.com" class="quick-link" target="_blank">GitHub</a>
+      <a href="https://stackoverflow.com" class="quick-link" target="_blank">Stack Overflow</a>
+      <a href="https://developer.mozilla.org" class="quick-link" target="_blank">MDN Docs</a>
+      <a href="https://tauri.app" class="quick-link" target="_blank">Tauri</a>
+    </div>
+  </div>
+
+  <script>
+    // Simple particle background (lightweight version)
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let w = 0, h = 0;
+
+    function resize() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    }
+
+    function createParticles() {
+      particles = [];
+      for (let i = 0; i < 40; i++) {
+        particles.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: (Math.random() - 0.5) * 0.3,
+          size: 1 + Math.random() * 2,
+          hue: Math.random() > 0.5 ? 190 + Math.random() * 30 : 270 + Math.random() * 40,
+        });
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, w, h);
+      for (const p of particles) {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
+        if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
+        const alpha = 0.2 + 0.3 * Math.sin(Date.now() * 0.001 + p.x);
+        ctx.fillStyle = `hsla(${p.hue}, 80%, 60%, ${alpha})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', () => { resize(); createParticles(); });
+    resize(); createParticles(); animate();
+
+    // Search handling
+    const input = document.getElementById('search-input');
+    const btn = document.getElementById('search-btn');
+    function doSearch() {
+      const q = input.value.trim();
+      if (!q) return;
+      let url;
+      try { new URL(q); url = q; } catch {
+        if (q.includes('.') && !q.includes(' ')) url = 'https://' + q;
+        else url = `https://www.google.com/search?q=${encodeURIComponent(q)}`;
+      }
+      window.location.href = url;
+    }
+    btn.addEventListener('click', doSearch);
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
+    input.focus();
+  </script>
+</body>
+</html>

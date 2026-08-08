@@ -1,0 +1,1 @@
+{"default":{"identifier":"default","description":"Default capabilities for Nebula Browser","local":true,"windows":["main"],"permissions":["core:default","fs:default","shell:default","dialog:default","os:default","clipboard-manager:default","global-shortcut:default","updater:default","process:default","positioner:default"]}}
