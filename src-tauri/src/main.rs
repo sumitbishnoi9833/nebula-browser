@@ -2,6 +2,7 @@
 
 use tauri::{Manager, AppHandle, http::Response};
 use tauri_plugin_global_shortcut::{Shortcut, GlobalShortcutExt};
+use tauri_plugin_single_instance::SingleInstanceExt;
 use serde::{Deserialize, Serialize};
 use std::sync::{Arc, Mutex};
 
@@ -127,7 +128,7 @@ async fn window_close(window: tauri::WebviewWindow) -> Result<(), String> {
     window.close().map_err(|e| e.to_string())
 }
 
-fn setup_global_shortcuts(app: &AppHandle) -> Result<(), String> {
+fn setup_global_shortcuts(app: &AppHandle) {
     let shortcuts = vec![
         "Ctrl+T",
         "Ctrl+W",
@@ -141,12 +142,14 @@ fn setup_global_shortcuts(app: &AppHandle) -> Result<(), String> {
     ];
 
     for shortcut_str in shortcuts {
-        let shortcut = shortcut_str.parse::<Shortcut>().map_err(|e| e.to_string())?;
-        app.global_shortcut()
-            .register(shortcut)
-            .map_err(|e| e.to_string())?;
+        if let Ok(shortcut) = shortcut_str.parse::<Shortcut>() {
+            if let Err(e) = app.global_shortcut().register(shortcut) {
+                eprintln!("[shortcut] failed to register {shortcut_str}: {e}");
+            }
+        } else {
+            eprintln!("[shortcut] failed to parse {shortcut_str}");
+        }
     }
-    Ok(())
 }
 
 fn main() {
@@ -180,11 +183,20 @@ fn main() {
             window_close,
         ])
         .setup(|app| {
+            // Single instance - focus existing window on second launch
+            let _ = app.handle().plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
+                if let Some(window) = app.get_webview_window("main") {
+                    let _ = window.set_focus();
+                    let _ = window.show();
+                    let _ = window.unminimize();
+                }
+            }));
+
             let main_window = app.get_webview_window("main").unwrap();
             main_window.show().unwrap();
             main_window.set_focus().unwrap();
 
-            setup_global_shortcuts(app.handle())?;
+            setup_global_shortcuts(app.handle());
 
             Ok(())
         })
