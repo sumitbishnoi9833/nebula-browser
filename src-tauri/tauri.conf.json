@@ -37,6 +37,14 @@
   },
   "plugins": {
     "fs": { "requireLiteralLeadingDot": false },
-    "shell": { "scope": { "execute": [], "sidecar": [] } }
+    "shell": { "open": true },
+    "dialog": {},
+    "os": {},
+    "opener": {},
+    "clipboard-manager": {},
+    "global-shortcut": {},
+    "updater": {},
+    "process": {},
+    "positioner": {}
   }
 }
