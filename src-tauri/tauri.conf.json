@@ -37,11 +37,6 @@
   },
   "plugins": {
     "fs": { "requireLiteralLeadingDot": false },
-    "shell": { "open": true },
-    "clipboard-manager": {},
-    "global-shortcut": {},
-    "updater": {},
-    "process": {},
-    "positioner": {}
+    "shell": { "open": true }
   }
 }
