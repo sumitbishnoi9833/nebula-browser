@@ -9,9 +9,9 @@
     "shell:default",
     "dialog:default",
     "os:default",
+    "opener:default",
     "clipboard-manager:default",
     "global-shortcut:default",
-    "updater:default",
     "process:default",
     "positioner:default"
   ]
